@@ -13,7 +13,7 @@ The system implements four biological phases:
 | 3 | Proliferation | MetaCognitive Agent | 20s |
 | 4 | Remodeling | Knowledge Agent | 5s |
 
-## Components
+## Components 
 
 ### Agents
 
