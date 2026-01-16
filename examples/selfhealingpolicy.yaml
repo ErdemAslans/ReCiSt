@@ -1,0 +1,49 @@
+apiVersion: recist.io/v1alpha1
+kind: SelfHealingPolicy
+metadata:
+  name: default-policy
+  namespace: default
+spec:
+  targetNamespaces:
+    - default
+    - production
+  targetLabels:
+    app.kubernetes.io/managed-by: recist
+  thresholds:
+    cpu: 0.9
+    memory: 0.85
+    latencyMs: 500
+    errorRate: 0.05
+  allowedActions:
+    - restart
+    - scale
+    - updateConfig
+    - updateResources
+    - isolate
+  llmConfig:
+    provider: claude
+    model: claude-3-sonnet-20240229
+    apiKeySecret: llm-api-key
+    timeoutSeconds: 30
+  notifications:
+    enabled: true
+    slackWebhook: https://hooks.slack.com/services/xxx/yyy/zzz
+  containmentConfig:
+    checkIntervalSeconds: 10
+    isolationStrategy: auto
+    neighborCapacityThreshold: 0.7
+  diagnosisConfig:
+    logLookbackMinutes: 5
+    maxLogLines: 1000
+    confidenceThreshold: 0.7
+  metacognitiveConfig:
+    maxMicroAgents: 5
+    maxReasoningDepth: 10
+    actionTimeoutSeconds: 60
+    verificationWaitSeconds: 30
+    decisionThreshold: 0.7
+  knowledgeConfig:
+    similarityThreshold: 0.8
+    maxLocalEvents: 100
+    knowledgeTtlDays: 90
+    embeddingDimensions: 1536

@@ -1,0 +1,70 @@
+replicaCount: 1
+
+image:
+  repository: recist/recist
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+prometheus:
+  url: http://prometheus-server.monitoring.svc.cluster.local:9090
+
+loki:
+  url: http://loki.monitoring.svc.cluster.local:3100
+
+qdrant:
+  url: http://qdrant.recist-system.svc.cluster.local:6334
+  collectionName: healing_events
+
+redis:
+  url: redis://redis.recist-system.svc.cluster.local:6379
+  ttlSeconds: 3600
+
+llm:
+  provider: claude
+  model: claude-3-sonnet-20240229
+  apiKeySecretName: llm-api-key
+  apiKeySecretKey: key
+  timeoutSeconds: 30
+
+logging:
+  level: info
+  jsonFormat: true
+
+metrics:
+  enabled: true
+  port: 9090
+  path: /metrics
